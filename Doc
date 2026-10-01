@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Finder</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      text-align: center;
+      background: #f4f8fb;
+    }
+
+    h1 {
+      color: #1565c0;
+    }
+
+    p {
+      color: #555;
+    }
+
+    button {
+      display: block;
+      width: 90%;
+      max-width: 350px;
+      margin: 15px auto;
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #1565c0;
+      color: white;
+    }
+
+    button:hover {
+      background: #0d47a1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Healthcare Finder</h1>
+
+  <p>Find doctors and optometrists near you.</p>
+
+  <button>Find a Doctor</button>
+
+  <button>Find an Optometrist</button>
+
+</body>
+</html>
