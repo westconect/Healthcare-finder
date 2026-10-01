@@ -3,23 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Healthcare Finder</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 30px;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f4f7f9;
+      color: #222;
       text-align: center;
-      background: #f4f8fb;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px 20px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+    }
+
+    .logo {
+      font-size: 55px;
+      margin-bottom: 10px;
     }
 
     h1 {
       color: #1565c0;
+      margin-bottom: 10px;
     }
 
     p {
       color: #555;
+      line-height: 1.5;
     }
 
     button {
@@ -33,23 +55,186 @@
       border-radius: 10px;
       background: #1565c0;
       color: white;
+      cursor: pointer;
     }
 
     button:hover {
       background: #0d47a1;
+    }
+
+    .optometrist {
+      background: #00897b;
+    }
+
+    .optometrist:hover {
+      background: #00695c;
+    }
+
+    .manual {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    input {
+      width: 90%;
+      max-width: 350px;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      margin: 10px auto;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #777;
+    }
+
+    #status {
+      margin: 15px;
+      font-weight: bold;
+      color: #1565c0;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>Healthcare Finder</h1>
+  <div class="container">
 
-  <p>Find doctors and optometrists near you.</p>
+    <div class="logo">🏥</div>
 
-  <button>Find a Doctor</button>
+    <h1>Healthcare Finder</h1>
 
-  <button>Find an Optometrist</button>
+    <p>
+      Find doctors and optometrists near you.
+      Use your location or enter a place manually.
+    </p>
+
+    <div id="status"></div>
+
+    <button onclick="findHealthcare('doctor')">
+      🩺 Find a Doctor
+    </button>
+
+    <button class="optometrist" onclick="findHealthcare('optometrist')">
+      👁️ Find an Optometrist
+    </button>
+
+    <div class="manual">
+
+      <h3>Search another area</h3>
+
+      <input
+        type="text"
+        id="locationInput"
+        placeholder="Example: Bloemfontein"
+      >
+
+      <button onclick="manualSearch('doctor')">
+        🩺 Doctors in this area
+      </button>
+
+      <button class="optometrist" onclick="manualSearch('optometrist')">
+        👁️ Optometrists in this area
+      </button>
+
+    </div>
+
+    <p class="small">
+      Healthcare Finder — Version 1.0
+    </p>
+
+  </div>
+
+  <script>
+
+    function findHealthcare(type) {
+
+      const status = document.getElementById("status");
+
+      status.innerText = "📍 Getting your location...";
+
+      if (!navigator.geolocation) {
+
+        status.innerText =
+          "Location is not supported. Please enter an area below.";
+
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          let search;
+
+          if (type === "doctor") {
+            search = "doctor";
+          } else {
+            search = "optometrist";
+          }
+
+          const mapsURL =
+            "https://www.google.com/maps/search/" +
+            encodeURIComponent(search) +
+            "/@" +
+            latitude +
+            "," +
+            longitude +
+            ",14z";
+
+          status.innerText = "✅ Opening healthcare providers near you...";
+
+          window.location.href = mapsURL;
+        },
+
+        function(error) {
+
+          status.innerText =
+            "📍 Location was not available. Enter your area below.";
+        }
+
+      );
+    }
+
+
+    function manualSearch(type) {
+
+      const location =
+        document.getElementById("locationInput").value.trim();
+
+      if (location === "") {
+
+        alert("Please enter a town, city or area.");
+
+        return;
+      }
+
+      let search;
+
+      if (type === "doctor") {
+
+        search = "doctors near " + location;
+
+      } else {
+
+        search = "optometrists near " + location;
+
+      }
+
+      const mapsURL =
+        "https://www.google.com/maps/search/" +
+        encodeURIComponent(search);
+
+      window.location.href = mapsURL;
+    }
+
+  </script>
 
 </body>
 </html>
